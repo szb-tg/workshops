@@ -445,10 +445,4 @@ END
 
 INSTALL QUERY ALL
 
-// =========================================================================
-// Data preparation
-
-RUN QUERY fix_statistics()
-RUN QUERY fix_txn_aggs()
-
 // EOF
