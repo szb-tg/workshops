@@ -15,7 +15,20 @@ CREATE VERTEX customer(PRIMARY_ID id STRING, num_frauds INT, average_purchase DO
 CREATE VERTEX transaction(PRIMARY_ID id UINT, amount DOUBLE, fraud INT, step INT, prev_frauds_cust INT, prev_frauds_merch INT, prev_frauds_cat INT, rank_fraud DOUBLE, dist_fraud INT, prev_trans_cat INT, prev_trans_merch INT, prev_trans_cust INT, prev_sum_cat DOUBLE, prev_sum_merch DOUBLE, prev_sum_cust DOUBLE, prev_max_cat DOUBLE, prev_max_merch DOUBLE, prev_max_cust DOUBLE) WITH STATS="OUTDEGREE_BY_EDGETYPE", PRIMARY_ID_AS_ATTRIBUTE="true"
 
 // =========================================================================
-// EdgeTypes
+// Indices
+
+BEGIN
+CREATE GLOBAL SCHEMA_CHANGE JOB add_index {
+    ALTER VERTEX transaction ADD INDEX transaction_step_ix ON (step);
+}
+END
+
+RUN GLOBAL SCHEMA_CHANGE JOB add_index
+
+DROP JOB add_index
+
+// =========================================================================
+// Edge types
 
 CREATE UNDIRECTED EDGE transaction2category(FROM transaction, TO category)
 
@@ -33,26 +46,10 @@ CREATE UNDIRECTED EDGE customer_with_customer(FROM customer, TO customer, map_pe
 CREATE GRAPH FraudGraph(merchant, category, global_stats, customer, transaction, transaction2category, transaction2merchant, customer2transaction, customer_with_merchant, customer_with_customer)
 
 // =========================================================================
-// Indices
-
-USE GLOBAL
-
-BEGIN
-CREATE GLOBAL SCHEMA_CHANGE JOB add_index {
-    ALTER VERTEX transaction ADD INDEX transaction_step_ix ON (step);
-}
-END
-
-RUN GLOBAL SCHEMA_CHANGE JOB add_index
-
-DROP GLOBAL SCHEMA_CHANGE JOB add_index
-
-USE GRAPH FraudGraph
-
-// =========================================================================
 // Data sources
 
 CREATE DATA_SOURCE S3 s3ds = "{'file.reader.settings.fs.s3a.access.key':'{$ACCESS_KEY}','file.reader.settings.fs.s3a.secret.key':'{$SECRET_KEY}'}"
+
 GRANT DATA_SOURCE s3ds TO GRAPH FraudGraph
 
 // =========================================================================
