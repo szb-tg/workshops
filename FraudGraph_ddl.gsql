@@ -35,6 +35,8 @@ CREATE GRAPH FraudGraph(merchant, category, global_stats, customer, transaction,
 // =========================================================================
 // Indices
 
+USE GLOBAL
+
 BEGIN
 CREATE GLOBAL SCHEMA_CHANGE JOB add_index {
     ALTER VERTEX transaction ADD INDEX transaction_step_ix ON (step);
@@ -43,7 +45,9 @@ END
 
 RUN GLOBAL SCHEMA_CHANGE JOB add_index
 
-DROP SCHEMA_CHANGE JOB add_index
+DROP GLOBAL SCHEMA_CHANGE JOB add_index
+
+USE GRAPH FraudGraph
 
 // =========================================================================
 // Data sources
