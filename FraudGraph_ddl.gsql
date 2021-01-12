@@ -28,6 +28,15 @@ CREATE UNDIRECTED EDGE customer_with_merchant(FROM customer, TO merchant, map_pe
 CREATE UNDIRECTED EDGE customer_with_customer(FROM customer, TO customer, map_period_to_weight MAP<INT, DOUBLE>)
 
 // =========================================================================
+// Indices
+
+BEGIN
+CREATE GLOBAL SCHEMA_CHANGE JOB add_index {
+    ALTER VERTEX transaction ADD INDEX transaction_step_ix ON (step);
+}
+END
+
+// =========================================================================
 // Graph
 
 CREATE GRAPH FraudGraph(merchant, category, global_stats, customer, transaction, transaction2category, transaction2merchant, customer2transaction, customer_with_merchant, customer_with_customer)
