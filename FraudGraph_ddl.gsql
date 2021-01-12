@@ -41,6 +41,10 @@ CREATE GLOBAL SCHEMA_CHANGE JOB add_index {
 }
 END
 
+RUN GLOBAL SCHEMA_CHANGE JOB add_index
+
+DROP GLOBAL SCHEMA_CHANGE JOB add_index
+
 // =========================================================================
 // Data sources
 
