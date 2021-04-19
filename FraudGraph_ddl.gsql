@@ -240,9 +240,10 @@ CREATE QUERY fix_txn_aggs() FOR GRAPH FraudGraph {
              ms.@my_fraud_ts.clear();
 
     // Add all transactions on this step to the category
-    fraudCat = select cat from myFrauds:t-()-category:cat
-      ACCUM
-        cat.@my_fraud_ts += t;
+    fraudCat =
+      SELECT cat
+      FROM   myFrauds:t -()- category:cat
+      ACCUM  cat.@my_fraud_ts += t;
 
     // And attach them to all transactions
     fraudCat =
@@ -447,7 +448,7 @@ CREATE QUERY get_all_trans_tabular3(INT days_history = 1) FOR GRAPH FraudGraph {
 
   all_c =
     SELECT cc
-    FROM   all_c:cc-()-transaction:tt
+    FROM   all_c:cc -()- transaction:tt
     ACCUM  cc.@transactions_in_order += tt_tuple(tt.id, tt.fraud, tt)
     POST-ACCUM
            UINT pre_fraud_bitmap = 0
