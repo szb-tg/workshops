@@ -30,7 +30,8 @@ CREATE UNDIRECTED EDGE customer2transaction(FROM customer, TO transaction)
 // =========================================================================
 // Graph
 
-CREATE GRAPH FraudGraph(merchant, category, global_stats, customer, transaction, transaction2category, transaction2merchant, customer2transaction, customer_with_merchant, customer_with_customer)
+//CREATE GRAPH FraudGraph(merchant, category, global_stats, customer, transaction, transaction2category, transaction2merchant, customer2transaction, customer_with_merchant, customer_with_customer)
+CREATE GRAPH FraudGraph(merchant, category, global_stats, customer, transaction, transaction2category, transaction2merchant, customer2transaction)
 
 // =========================================================================
 // Indices
