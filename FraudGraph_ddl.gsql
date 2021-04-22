@@ -23,9 +23,9 @@ CREATE UNDIRECTED EDGE transaction2merchant(FROM transaction, TO merchant)
 
 CREATE UNDIRECTED EDGE customer2transaction(FROM customer, TO transaction)
 
-CREATE UNDIRECTED EDGE customer_with_merchant(FROM customer, TO merchant, map_period_to_num_t MAP<INT, INT>)
+//CREATE UNDIRECTED EDGE customer_with_merchant(FROM customer, TO merchant, map_period_to_num_t MAP<INT, INT>)
 
-CREATE UNDIRECTED EDGE customer_with_customer(FROM customer, TO customer, map_period_to_weight MAP<INT, DOUBLE>)
+//CREATE UNDIRECTED EDGE customer_with_customer(FROM customer, TO customer, map_period_to_weight MAP<INT, DOUBLE>)
 
 // =========================================================================
 // Graph

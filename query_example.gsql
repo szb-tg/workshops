@@ -1,0 +1,16 @@
+CREATE QUERY query_sample(/* Parameters here */) FOR GRAPH FraudGraph { 
+  start = {customer.*};
+  
+  trx =
+    SELECT trg
+    FROM   start:src -(customer2transaction)- transaction:trg
+    WHERE  trg.amount > 100;
+  
+  merch =
+    SELECT trg
+    FROM   trx:src -(transaction2merchant)- merchant:trg
+    WHERE  trg.num_frauds > 10
+    ORDER  BY trg.num_frauds DESC;
+  
+  PRINT merch;
+}
